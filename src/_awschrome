@@ -1,0 +1,21 @@
+#compdef awschrome
+
+function _awschrome(){
+  local state
+
+  _vault_profiles() {
+    local -a profiles
+    IFS=$'\n'
+    profiles=($(aws-vault list --profiles))
+    _describe 'PROFILE' profiles
+  }
+
+  _arguments \
+    '1: :->aws_profile'
+
+  case "$state" in
+    (aws_profile) _arguments '1:PROFILE:_vault_profiles' ;;
+  esac
+}
+
+_awschrome "$@"
